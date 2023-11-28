@@ -11,10 +11,9 @@ Gem::Specification.new do |spec|
     spec.license               = 'MIT'
     spec.platform              = Gem::Platform::RUBY
     spec.required_ruby_version = '>= 2.7.0'
-    spec.files = Dir['README.md', 'LICENSE',
-                     'CHANGELOG.md', 'lib/**/*.rb',
-                     'fun translations.gemspec', '.github/* .md',
-                     'Gemfile', 'Rakefile']
+    spec.files = Dir['README.md','lib/**/*.rb',
+                     'fun ruby_for_grafana_loki.gemspec', '.github/* .md',
+                     'Gemfile']
     spec.extra_rdoc_files      = ['README.md']
     spec.require_paths         = ['lib']
     spec.add_dependency        'faraday',  '~> 2.6'
