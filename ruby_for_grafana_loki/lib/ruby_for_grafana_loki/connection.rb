@@ -1,27 +1,39 @@
 module RubyForGrafanaLoki
-    module Connection
-        # BASE_URL =  'http://localhost:3000/en/'
-        BASE_URL = 'https://logs-prod-006.grafana.net'
-        # BASE_URL = 'https://reqres.in/'
-        # BASE_URL = 'https://api.funtranslations.com/'
+  module Connection
 
-        def connection
-            Faraday.new(options) do |faraday|
-                faraday.adapter Faraday.default_adapter
-                faraday.request :url_encoded
-            end
+    BASE_URL = 'http://localhost:3100/'
+
+    def connection
+        Faraday.new(options) do |faraday|
+            faraday.adapter Faraday.default_adapter
+            faraday.request :url_encoded
+        end
+    end
+
+    def post(path, body)
+        response = connection.post(path) do |req|
+          req.headers['Content-Type'] = 'application/json'
+          req.body = JSON.generate(body)
         end
 
-        private
-
-        def options
-            headers = {
-                accept: 'application/json',
-                'Content-Type' => 'application/x-www-form-urlencoded'
-            }
-            return {
-                url: BASE_URL
-            }
+        # Check if the request was successful
+        if response.success?
+          return JSON.parse(response.body)
+        else
+          raise "Failed to make POST request. Response code: #{response.status}, Response body: #{response.body}"
         end
+      end
+
+    private
+    def options
+        headers = {
+            accept: 'application/json',
+            'Content-Type' => 'application/json'
+        }
+        return {
+            url: BASE_URL,
+            headers: headers
+        }
+    end
     end
 end
