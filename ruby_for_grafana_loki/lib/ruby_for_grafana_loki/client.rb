@@ -1,25 +1,24 @@
 module RubyForGrafanaLoki class Client
-  include RubyForGrafanaLoki::Request
-    def send_log(log_message)
-      curr_datetime = Time.now.utc.strftime('%Y-%m-%dT%H:%M:%S.%LZ')
-      labels = "{source=\"my_gem\",job=\"my_gem_job\"}"
+ include RailsLokiExporterDev::Request
 
-      entry = {
-        'ts' => curr_datetime,
-        'line' => log_message
-      }
+        def send_log(log_message)
+          curr_datetime = Time.now.to_i * 1_000_000_000
+          labels = "{source=\"my_gem\",job=\"my_gem_job\"}"
 
-      payload = {
-        'streams' => [
-          {
-            'labels' => labels,
-            'entries' => [entry]
+          payload = {
+            "streams" => [
+             {
+               "stream" => { "foo" => "bar2" },
+               "values" => [
+                ["#{curr_datetime}", log_message]
+                ]
+              }
+            ]
           }
-        ]
-      }
 
-      json_payload = JSON.generate(payload)
-      uri = '/loki/api/v1/push'
-      post uri, json_payload
-     end
+          json_payload = JSON.generate(payload)
+          uri = '/loki/api/v1/push'
+          post uri, json_payload
+        end
+    end
 end
