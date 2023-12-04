@@ -1,8 +1,5 @@
 
-
-# Example with Rails logger
-rails_logger = Logger.new(STDOUT)
-client = RubyForGrafanaLoki.client(rails_logger)
-
-# Send a log entry to Loki
+# Usage in your gem or application
+log_file_path = "log/#{Rails.env}.log"
+client = RubyForGrafanaLoki.client(log_file_path)
 client.send_log("This is a log message.")

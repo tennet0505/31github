@@ -2,10 +2,17 @@ module RubyForGrafanaLoki
   class Client
     include RubyForGrafanaLoki::Request
 
-    def initialize(logger)
-      @logger = logger
+    def initialize(log_file_path)
+      @log_file_path = log_file_path
     end
 
+    def send_all_logs
+      File.open(@log_file_path, 'r') do |file|
+        file.each_line do |line|
+          send_log(line)
+        end
+      end
+    end
     def send_log(log_message)
       curr_datetime = Time.now.to_i * 1_000_000_000
 
@@ -35,7 +42,7 @@ module RubyForGrafanaLoki
       uri = '/loki/api/v1/push'
 
       # Use logger for sending logs to both default logger and Loki
-      @logger.info "Sending log to Loki: #{json_payload}"
+      # @logger.info "Sending log to Loki: #{json_payload}"
 
       # Send logs to Loki using the post method
       post(uri, json_payload)
