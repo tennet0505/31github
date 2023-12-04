@@ -2,7 +2,7 @@ require File.expand_path('lib/ruby_for_grafana_loki/version', __dir__)
 
 Gem::Specification.new do |spec|
     spec.name                  = 'ruby_for_grafana_loki'
-    spec.version               = RubyGrafanaLoki::VERSION
+    spec.version               = RubyForGrafanaLoki::VERSION
     spec.authors               = ['Oleg Ten']
     spec.email                 = ['tennet0505@gmail.com']
     spec.summary               = 'Ruby for Grafana Loki'

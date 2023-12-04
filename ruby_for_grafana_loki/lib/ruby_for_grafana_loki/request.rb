@@ -1,6 +1,6 @@
 module RubyForGrafanaLoki 
      module Request
-        include RailsLokiExporterDev:: Connection
+        include RubyForGrafanaLoki:: Connection
 
             def post(url, payload)
                 respond_with(

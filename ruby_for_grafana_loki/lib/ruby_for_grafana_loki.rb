@@ -4,8 +4,8 @@ require 'zeitwerk'
 loader = Zeitwerk::Loader.for_gem
 loader.setup
 
-module RubyForGrafanaLoki 
+module RubyForGrafanaLoki
   def self.client(logger)
-    RailsLokiExporterDev::Client.new(logger)
+    RubyForGrafanaLoki::Client.new(logger)
   end
 end
