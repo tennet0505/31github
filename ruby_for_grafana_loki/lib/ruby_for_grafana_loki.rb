@@ -5,7 +5,7 @@ loader = Zeitwerk::Loader.for_gem
 loader.setup
 
 module RubyForGrafanaLoki
-  def self.client(logger)
-    RubyForGrafanaLoki::Client.new(logger)
+  def self.client(log_file_path, logs_type)
+    RubyForGrafanaLoki::Client.new(log_file_path, logs_type)
   end
 end
