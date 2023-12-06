@@ -3,9 +3,9 @@
 <pre>
 
 
-custom_levels = %w(ERROR WARN)  # Use custom logs type: ERROR, WARN, FATAL, INFO, DEBUG 
+logs_type = %w(ERROR WARN)  # Use custom logs type: ERROR, WARN, FATAL, INFO, DEBUG 
 log_file_path = "log/#{Rails.env}.log"
-client = RubyForGrafanaLoki.client(log_file_path)
+client = RubyForGrafanaLoki.client(log_file_path, logs_type)
 client.send_all_logs
-client.send_log("This is a log message.")
+client.send_log("This is a log message.")  # not required
 </pre>
