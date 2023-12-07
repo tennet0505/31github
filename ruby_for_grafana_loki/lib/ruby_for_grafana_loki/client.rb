@@ -58,7 +58,7 @@ module RubyForGrafanaLoki
     def match_logs_type?(log_line)
       type = log_line.match(/(ERROR|WARN|FATAL|INFO|DEBUG)/)&.to_s
 
-      @allowed_logs_type.include?(type)
+      type && @allowed_logs_type.include?(type)
     end
   end
 end
