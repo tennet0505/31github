@@ -22,10 +22,9 @@ RSpec.describe RubyForGrafanaLoki::Client do
           puts "DEBUG: #{line}"
         end
       end
-
       # expect(client).to receive(:send_log).with("ERROR log line").once
       # expect(client).to receive(:send_log).with("WARN log line").once
-      # expect(client).not_to receive(:send_log).with("INFO log line")
+      expect(client).not_to receive(:send_log).with("INFO log line")
       client.send_all_logs
     end
   end
@@ -34,12 +33,8 @@ RSpec.describe RubyForGrafanaLoki::Client do
     it 'sends a log entry to Loki' do
       allow(client).to receive(:post)
       allow(Time).to receive(:now).and_return(Time.new(2023, 1, 1)) # Adjust as needed
-
       expect(client).to receive(:post).with('/loki/api/v1/push', String)
-
       client.send_log('Log message')
-
-      # Additional assertions based on your requirements
     end
   end
 end

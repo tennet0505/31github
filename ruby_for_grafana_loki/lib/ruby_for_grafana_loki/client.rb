@@ -1,5 +1,6 @@
 module RubyForGrafanaLoki
   LOGS_TYPE = %w(ERROR WARN FATAL INFO DEBUG).freeze
+
   class Client
     include RubyForGrafanaLoki::Request
 
@@ -10,9 +11,9 @@ module RubyForGrafanaLoki
     def initialize(log_file_path, allowed_logs_type = LOGS_TYPE)
       @log_file_path = log_file_path
       @allowed_logs_type = allowed_logs_type
-      @job_name = "job_name"
-      @host_name = "host_name"
-      @source_name = "source_name"
+      @job_name = "job name"
+      @host_name = "host name"
+      @source_name = "source name"
     end
 
     def send_all_logs
@@ -53,12 +54,10 @@ module RubyForGrafanaLoki
       post(uri, json_payload)
     end
 
-    private
-
     def match_logs_type?(log_line)
       type = log_line.match(/(ERROR|WARN|FATAL|INFO|DEBUG)/)&.to_s
 
-      type && @allowed_logs_type.include?(type)
+      @allowed_logs_type.include?(type)
     end
   end
 end
