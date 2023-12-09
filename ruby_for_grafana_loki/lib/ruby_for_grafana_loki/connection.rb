@@ -18,7 +18,7 @@ module RubyForGrafanaLoki
 
       # Check if the request was successful
       if response.success?
-        return JSON.parse(response.body)
+        JSON.parse(response.body)
       else
         raise "Failed to make POST request. Response code: #{response.status}, Response body: #{response.body}"
       end
@@ -30,7 +30,7 @@ module RubyForGrafanaLoki
         accept: 'application/json',
         'Content-Type' => 'application/json'
       }
-      return {
+      {
         url: BASE_URL,
         headers: headers
         }

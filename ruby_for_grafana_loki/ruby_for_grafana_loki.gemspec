@@ -6,7 +6,7 @@ Gem::Specification.new do |spec|
     spec.authors               = ['Oleg Ten']
     spec.email                 = ['tennet0505@gmail.com']
     spec.summary               = 'Ruby for Grafana Loki'
-    spec.description           = 'Attempt to make gem'
+    spec.description           = 'Send logs to Grafana Loki'
     spec.homepage              = 'https://github.com/tennet0505/31github/tree/main/ruby_for_grafana_loki'
     spec.license               = 'MIT'
     spec.platform              = Gem::Platform::RUBY
