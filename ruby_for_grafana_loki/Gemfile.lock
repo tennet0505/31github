@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    ruby_for_grafana_loki (0.0.5)
+    ruby_for_grafana_loki (0.0.6)
       faraday (~> 2.6)
       rspec
       zeitwerk (~> 2.4)
