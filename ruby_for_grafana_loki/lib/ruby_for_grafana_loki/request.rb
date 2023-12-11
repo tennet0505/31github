@@ -11,7 +11,7 @@ module RubyForGrafanaLoki
     private
     def respond_with(response)
       if response.success?
-        puts 'Log sent successfully to Loki.'
+        puts 'Logs sent successfully to Loki.'
         puts "Response code: #{response.status}, Response body: #{response.body}"
         body = response.body.empty? ? response.body : JSON.parse(response.body)
         puts body
