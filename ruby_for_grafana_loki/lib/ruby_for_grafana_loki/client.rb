@@ -26,9 +26,7 @@ module RubyForGrafanaLoki
 
     def send_log(log_message)
       curr_datetime = Time.now.to_i * 1_000_000_000
-
       msg = "On server #{@host_name} detected error"
-
       payload = {
         'streams' => [
           {
@@ -50,13 +48,11 @@ module RubyForGrafanaLoki
 
       json_payload = JSON.generate(payload)
       uri = '/loki/api/v1/push'
-
       post(uri, json_payload)
     end
 
     def match_logs_type?(log_line)
       type = log_line.match(/(ERROR|WARN|FATAL|INFO|DEBUG)/)&.to_s
-
       @allowed_logs_type.include?(type)
     end
   end

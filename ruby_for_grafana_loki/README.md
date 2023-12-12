@@ -16,16 +16,17 @@ to run gem for test(for Macbook):
 after installing Grafana
 - brew services start grafana (start Grafana)
 
-  after start grafana open webbrowser http://localhost:3000 and sighIn with login: admin, password: admin.
+  after start grafana open browser http://localhost:3000 (sighIn with login: admin, password: admin.)
   setup Grafana > Home > Connections > Data sources > Loki
   setup URL: http://localhost:3100
 
 - brew services restart grafana-agent-flow             //(restart Grafana)
 - brew services stop grafana-agent-flow                //(stop Grafana)
 
-  Ctrl+C (stop Loki)                                   //(stop Grafana Loki)
+- Ctrl+C (stop Loki)                                   //(stop Grafana Loki)
 </pre>
-# Usage in test gem with irb:
+
+# Test gem with irb:
 <pre>
 go to your project folder:
 - gem uninstall build rails_loki_exporter_dev           //(if you install gem before)
@@ -39,8 +40,8 @@ go to your project folder:
 - client = RailsLokiExporterDev.client(log_folder_name, logs_type)  // (create client)
 - result = client.send_all._logs
 </pre>
-# Usage gem in your application:
 
+# Usage gem in your application:
 <pre>
  - add gem "ruby_for_grafana_loki-0.0.6.gem"                      //to the Gemfile
  - bundle install
