@@ -46,13 +46,13 @@ go to your project folder:
  - add gem "ruby_for_grafana_loki-0.0.6.gem"                      //to the Gemfile
  - bundle install
  
- in the project:
+ in the project (add in config.ru file):
  - logs_type = %w(ERROR WARN FATAL)                               // Use custom logs type: ERROR, WARN, FATAL, INFO, DEBUG 
  - log_file_path = "log/#{Rails.env}.log"
  - client = RubyForGrafanaLoki.client(log_file_path, logs_type)
- - client.jobName = "job name"                                    // your job name
- - client.hostName = "host name"                                  // your host name
- - client.sourceName = "source name"                              // your source name
+ - client.jobName = "your job name"                               // your job name
+ - client.hostName = "your host name"                             // your host name
+ - client.sourceName = "your source name"                         // your source name
  - client.send_all_logs
- - client.send_log("This is a test log message.")
+ - client.send_log("This is a test log message.")                 // not required
 </pre>
