@@ -32,7 +32,7 @@ module RubyForGrafanaLoki
       {
         url: BASE_URL,
         headers: headers
-        }
+      }
      end
   end
 end
