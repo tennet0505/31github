@@ -45,7 +45,6 @@ module RubyForGrafanaLoki
           }
         ]
       }
-
       json_payload = JSON.generate(payload)
       uri = '/loki/api/v1/push'
       post(uri, json_payload)

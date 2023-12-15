@@ -20,16 +20,16 @@ after installing Grafana
   setup Grafana > Home > Connections > Data sources > Loki
   setup URL: http://localhost:3100
 
-- brew services restart grafana-agent-flow             // restart Grafana
-- brew services stop grafana-agent-flow                // stop Grafana
+- brew services restart grafana-agent-flow                         // restart Grafana
+- brew services stop grafana-agent-flow                            // stop Grafana
 
-- Ctrl+C (stop Loki)                                   // stop Grafana Loki
+- Ctrl+C (stop Loki)                                               // stop Grafana Loki
 </pre>
 
 # Test gem with irb:
 <pre>
 Go to your project folder:
-- gem uninstall build rails_loki_exporter_dev           // if you install gem before
+- gem uninstall build rails_loki_exporter_dev                       // if you install gem before
 - gem build rails_loki_exporter_dev.gemspec
 - gem install rails_loki_exporter_dev-0.0.1.gem
 - irb (launch ruby's interactive console)
@@ -43,16 +43,16 @@ Go to your project folder:
 
 # Usage gem in your application:
 <pre>
- - add gem "ruby_for_grafana_loki-0.0.6.gem"                      // to the Gemfile
+ - add gem "ruby_for_grafana_loki-0.0.6.gem"                        // to the Gemfile
  - bundle install
  
  in the project (add in config.ru file):
- - logs_type = %w(ERROR WARN FATAL)                               // use custom logs type: ERROR, WARN, FATAL, INFO, DEBUG 
+ - logs_type = %w(ERROR WARN FATAL)                                 // use custom logs type: ERROR, WARN, FATAL, INFO, DEBUG 
  - log_file_path = "log/#{Rails.env}.log"
  - client = RubyForGrafanaLoki.client(log_file_path, logs_type)
- - client.jobName = "your job name"                               // your job name
- - client.hostName = "your host name"                             // your host name
- - client.sourceName = "your source name"                         // your source name
+ - client.jobName = "your job name"                                 // your job name
+ - client.hostName = "your host name"                               // your host name
+ - client.sourceName = "your source name"                           // your source name
  - client.send_all_logs
- - client.send_log("This is a test log message.")                 // not required
+ - client.send_log("This is a test log message.")                   // not required
 </pre>
