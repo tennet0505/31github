@@ -54,11 +54,8 @@ Go to your project folder:
  - client.hostName = "your host name"                               // your host name
  - client.sourceName = "your source name"                           // your source name
  - client.interaction_interval = 1                                  // 1 sec(default value) # in seconds, adjust as needed
- - client.max_buffer_size = 10                                      // 10 (default value) # set the maximum number of logs to buffer 
+ - client.max_buffer_size = 10                                      // 100 (default value) # set the maximum number of logs to buffer 
  - client.send_log("This is a test log message form Logger.")       // send log from Logger
  - client.send_all_logs                                             // send all logs from "log/#{Rails.env}.log"    
 
 </pre>
-
-@interaction_interval = 1 # in seconds, adjust as needed
-@max_buffer_size = 10 # set the maximum number of logs to buffer

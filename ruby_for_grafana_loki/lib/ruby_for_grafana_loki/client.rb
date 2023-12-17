@@ -19,7 +19,7 @@ module RubyForGrafanaLoki
       @log_buffer = []
       @last_interaction_time = nil
       @interaction_interval = 1 # in seconds, adjust as needed
-      @max_buffer_size = 10 # set the maximum number of logs to buffer
+      @max_buffer_size = 100 # set the maximum number of logs to buffer
     end
 
     def send_all_logs
