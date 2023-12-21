@@ -1,25 +1,28 @@
-module RubyForGrafanaLoki
-  LOGS_TYPE = %w(ERROR WARN FATAL INFO DEBUG).freeze
+# lib/ruby_for_grafana_loki.rb
 
+module RubyForGrafanaLoki
   class Client
     include RubyForGrafanaLoki::Request
 
+    LOGS_TYPE = %w(ERROR WARN FATAL INFO DEBUG).freeze
+
     attr_accessor :job_name
     attr_accessor :host_name
-    attr_accessor :source_name
     attr_accessor :max_buffer_size
     attr_accessor :interaction_interval
+    attr_accessor :logger
 
-    def initialize(log_file_path, allowed_logs_type = LOGS_TYPE)
+    def initialize(log_file_path, allowed_logs_type = LOGS_TYPE, intercept_logs)
       @log_file_path = log_file_path
       @allowed_logs_type = allowed_logs_type
       @job_name = "job name"
       @host_name = "host name"
-      @source_name = "source name"
       @log_buffer = []
       @last_interaction_time = nil
       @interaction_interval = 1 # in seconds, adjust as needed
-      @max_buffer_size = 100 # set the maximum number of logs to buffer
+      @max_buffer_size = 20 # set the maximum number of logs to buffer
+      @logger = InterceptingLogger.new(intercept_logs: intercept_logs)
+      @logger.client = self
     end
 
     def send_all_logs
@@ -37,7 +40,7 @@ module RubyForGrafanaLoki
         send_buffered_logs
         @last_interaction_time = Time.now
       else
-        puts('Log buffered. Waiting for more logs or interaction interval.')
+        @logger.info('Log buffered. Waiting for more logs or interaction interval.')
       end
     end
 
@@ -52,7 +55,6 @@ module RubyForGrafanaLoki
         'streams' => [
           {
             'stream' => {
-              'source' => @source_name,
               'job' => @job_name,
               'host' => @host_name
             },
@@ -85,6 +87,58 @@ module RubyForGrafanaLoki
       type = log_line.match(/(ERROR|WARN|FATAL|INFO|DEBUG)/)&.to_s
       @allowed_logs_type.include?(type)
     end
+
+    public
+
+    def send_log_to_loki(severity, message)
+
+      @log_buffer << message
+
+      if @log_buffer.size >= @max_buffer_size || can_send_log?
+        send_buffered_logs_to_loki(severity, message)
+        @last_interaction_time = Time.now
+      else
+        @logger.info('Log buffered. Waiting for more logs or interaction interval.')
+      end
+    end
+
+    def send_buffered_logs_to_loki(severity, message)
+      return if @log_buffer.empty?
+
+      curr_datetime = Time.now.to_i * 1_000_000_000
+      payload = {
+        'streams' => [
+          {
+            'stream' => {
+              'job' => @job_name,
+              'host' => @host_name
+            },
+            'values' => @log_buffer.map { |log| [curr_datetime.to_s, log] },
+            'entries' => @log_buffer.map do |log_entry|
+              {
+                'ts' => curr_datetime,
+                'line' => "[#{severity}] #{message} #{log_entry}"  # Include severity in the log entry
+              }
+            end
+          }
+        ]
+      }
+
+      json_payload = JSON.generate(payload)
+      uri = '/loki/api/v1/push'
+      post(uri, json_payload)
+
+      @log_buffer.clear
+    end
+
+    def self.client(log_file_path, logs_type, options = {})
+      intercept_logs = options.fetch(:intercept_logs, false)
+      client = Client.new(log_file_path, logs_type)
+      logger = InterceptingLogger.new(intercept_logs: intercept_logs)
+      logger.client = client
+      logger
+    end
   end
 end
+
 
