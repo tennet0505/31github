@@ -19,7 +19,7 @@ module RubyForGrafanaLoki
 
     def add(severity, message = nil, progname = nil, &block)
       if @intercept_logs
-        client.send_log_to_loki(severity, @log) if client
+        client.send_log(@log) if client
       end
       super(severity, message, progname, &block)
     end

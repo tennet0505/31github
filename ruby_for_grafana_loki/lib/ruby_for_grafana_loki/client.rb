@@ -45,7 +45,6 @@ module RubyForGrafanaLoki
     end
 
     private
-
     def send_buffered_logs
       return if @log_buffer.empty?
 
@@ -86,49 +85,6 @@ module RubyForGrafanaLoki
     def match_logs_type?(log_line)
       type = log_line.match(/(ERROR|WARN|FATAL|INFO|DEBUG)/)&.to_s
       @allowed_logs_type.include?(type)
-    end
-
-    public
-
-    def send_log_to_loki(severity, message)
-
-      @log_buffer << message
-
-      if @log_buffer.size >= @max_buffer_size || can_send_log?
-        send_buffered_logs_to_loki(severity, message)
-        @last_interaction_time = Time.now
-      else
-        @logger.info('Log buffered. Waiting for more logs or interaction interval.')
-      end
-    end
-
-    def send_buffered_logs_to_loki(severity, message)
-      return if @log_buffer.empty?
-
-      curr_datetime = Time.now.to_i * 1_000_000_000
-      payload = {
-        'streams' => [
-          {
-            'stream' => {
-              'job' => @job_name,
-              'host' => @host_name
-            },
-            'values' => @log_buffer.map { |log| [curr_datetime.to_s, log] },
-            'entries' => @log_buffer.map do |log_entry|
-              {
-                'ts' => curr_datetime,
-                'line' => "[#{severity}] #{message} #{log_entry}"  # Include severity in the log entry
-              }
-            end
-          }
-        ]
-      }
-
-      json_payload = JSON.generate(payload)
-      uri = '/loki/api/v1/push'
-      post(uri, json_payload)
-
-      @log_buffer.clear
     end
 
     def self.create_logger(log_file_path, logs_type, options = {})
