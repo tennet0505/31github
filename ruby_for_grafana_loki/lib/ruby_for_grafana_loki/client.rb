@@ -131,9 +131,9 @@ module RubyForGrafanaLoki
       @log_buffer.clear
     end
 
-    def self.client(log_file_path, logs_type, options = {})
+    def self.create_logger(log_file_path, logs_type, options = {})
       intercept_logs = options.fetch(:intercept_logs, false)
-      client = Client.new(log_file_path, logs_type)
+      client = Client.new(log_file_path, logs_type, intercept_logs)
       logger = InterceptingLogger.new(intercept_logs: intercept_logs)
       logger.client = client
       logger
