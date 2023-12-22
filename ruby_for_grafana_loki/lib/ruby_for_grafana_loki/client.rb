@@ -36,7 +36,6 @@ module RubyForGrafanaLoki
     def send_log(log_message)
       if match_logs_type?(log_message)
         @log_buffer << log_message
-
         if @log_buffer.size >= @max_buffer_size || can_send_log?
           send_buffered_logs
           @last_interaction_time = Time.now
