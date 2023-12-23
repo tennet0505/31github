@@ -11,18 +11,14 @@ module RubyForGrafanaLoki
     private
     def respond_with(response)
       if response.success?
-        puts 'Logs were successfully sent to Loki.'
+        puts '❇️Logs were successfully sent to Loki.'
         puts "Response code: #{response.status}, Response body: #{response.body}"
         body = response.body.empty? ? response.body : JSON.parse(response.body)
         puts body
       else
+        puts "⭕️ error request"
         puts "Failed to send log to Loki. Response code: #{response.status}, Response body: #{response.body}"
       end
-    end
-    def get(path)
-      respond_with(
-        connection.get(path)
-      )
     end
   end
 end
