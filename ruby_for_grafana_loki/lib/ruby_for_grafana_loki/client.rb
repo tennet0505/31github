@@ -72,8 +72,8 @@ module RubyForGrafanaLoki
       json_payload = JSON.generate(payload)
       uri = '/loki/api/v1/push'
 
+      puts "⭕️ #{uri}, #{json_payload}"
       post(uri, json_payload)
-      puts "⭕️ post(uri, json_payload)"
 
       @log_buffer.clear
     end
