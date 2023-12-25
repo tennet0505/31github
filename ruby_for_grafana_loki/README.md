@@ -42,18 +42,27 @@ Go to your project folder:
 </pre>
 
 # Usage gem in your application:
-<pre>
  - add gem "ruby_for_grafana_loki-0.0.6.gem"                        // to the Gemfile
  - bundle install
 
-In your Rails app project -> application.rb
+In your Rails app project 
+- create file 'config/config.yml'
 
+<pre>
+auth_enabled: true
+base_url: 'https://logs-prod-006.grafana.net'
+user_name: '747344'
+password: 'glc_eyJvIjoiOTk0MjI2IiwibiI6Im5ld3Rva2VuLW5ld3Rva2VuIiwiayI6IlJBNEgwNzM2Tkw0bkNLelc0cWgxMXRtNyIsIm0iOnsiciI6InByb2QtdXMtZWFzdC0wIn19'
+log_file_path: "log/#{Rails.env}.log"
+logs_type: '%w(ERROR WARN FATAL INFO DEBUG)' # or use logs_type: %w(ERROR WARN FATAL INFO DEBUG)
+intercept_logs: true
+</pre>
+
+- in your 'application.rb'
+<pre>
     config.after_initialize do
-      # Initialize your gem with log interception enabled
-      logs_type = %w(ERROR INFO DEBUG WARN)         // Use custom logs type: ERROR, WARN, FATAL, INFO, DEBUG 
-      log_file_path = "log/#{Rails.env}.log"
-      logger = RubyForGrafanaLoki.create_logger(log_file_path, logs_type, intercept_logs: true)
+      config_file_path = File.join(Rails.root, 'config', 'config.yml')
+      logger = RubyForGrafanaLoki.create_logger(config_file_path)
       Rails.logger = logger
     end
-
 </pre>
