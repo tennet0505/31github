@@ -51,8 +51,8 @@ In your Rails app project
 <pre>
 auth_enabled: true
 base_url: 'https://logs-prod-006.grafana.net'
-user_name: '747344'
-password: 'glc_eyJvIjoiOTk0MjI2IiwibiI6Im5ld3Rva2VuLW5ld3Rva2VuIiwiayI6IlJBNEgwNzM2Tkw0bkNLelc0cWgxMXRtNyIsIm0iOnsiciI6InByb2QtdXMtZWFzdC0wIn19'
+user_name: 'Your User number'
+password: 'Your Grafana.com API Token.'
 log_file_path: "log/#{Rails.env}.log"
 logs_type: '%w(ERROR WARN FATAL INFO DEBUG)' # or use logs_type: %w(ERROR WARN FATAL INFO DEBUG)
 intercept_logs: true
