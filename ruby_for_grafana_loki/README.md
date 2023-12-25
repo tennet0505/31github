@@ -50,7 +50,7 @@ In your Rails app project
 
 <pre>
 auth_enabled: true
-base_url: 'https://logs-prod-006.grafana.net'
+base_url: 'your grafana loki url
 user_name: 'Your User number'
 password: 'Your Grafana.com API Token.'
 log_file_path: "log/#{Rails.env}.log"
