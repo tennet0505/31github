@@ -49,19 +49,19 @@ In your Rails app project
 - create file 'config/config.yml'
 
 <pre>
-auth_enabled: true
-base_url: 'your grafana loki url
-user_name: 'Your User number'
-password: 'Your Grafana.com API Token.'
+auth_enabled: true 
+base_url: 'https://yourUrl.grafana.net'
+user_name: '765***'
+password: 'glc_eyJvIjoiOTk0MjI2IiwibiI6Im...wIn19'
 log_file_path: "log/#{Rails.env}.log"
-logs_type: '%w(ERROR WARN FATAL INFO DEBUG)' # or use logs_type: %w(ERROR WARN FATAL INFO DEBUG)
+logs_type: '%w(INFO DEBUG)' # or use logs_type: %w(ERROR WARN FATAL INFO DEBUG)
 intercept_logs: true
 </pre>
 
 - in your 'application.rb'
 <pre>
     config.after_initialize do
-      config_file_path = File.join(Rails.root, 'config', 'config.yml')
+      config_file_path = File.join(Rails.root, 'config', 'config.yml')   // path to your created config.yml
       logger = RubyForGrafanaLoki.create_logger(config_file_path)
       Rails.logger = logger
     end
