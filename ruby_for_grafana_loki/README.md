@@ -39,6 +39,7 @@ Go to your project folder:
 - log_file_path = "log/#{Rails.env}.log"                            // your path to *.log
 - client = RailsLokiExporterDev.client(log_folder_name, logs_type)  // create client
 - result = client.send_all_logs
+
 </pre>
 
 # Usage gem in your application:
