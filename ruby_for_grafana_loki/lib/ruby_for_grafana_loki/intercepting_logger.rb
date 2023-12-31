@@ -23,5 +23,10 @@ module RubyForGrafanaLoki
       end
       super(severity, message, progname, &block)
     end
+
+    def broadcast_to(console)
+      client.send_log(@log) if client
+    end
+
   end
 end
