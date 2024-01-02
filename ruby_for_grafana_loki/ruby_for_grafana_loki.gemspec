@@ -16,7 +16,7 @@ Gem::Specification.new do |spec|
                      'Gemfile']
     spec.extra_rdoc_files      = ['README.md']
     spec.require_paths         = ['lib']
-    spec.add_dependency        'faraday',  '~> 0.17.3'
+    spec.add_dependency        'faraday',  '~> 2.8.1'
     spec.add_dependency        'zeitwerk', '~> 2.4'
     spec.add_dependency        'rspec'
 end
