@@ -1,6 +1,8 @@
 # lib/ruby_for_grafana_loki.rb
 
 module RubyForGrafanaLoki
+  LOGS_TYPE = %w(ERROR WARN FATAL INFO DEBUG).freeze
+
   class Client
     include RubyForGrafanaLoki::Connection
     # LOGS_TYPE = %w(ERROR WARN FATAL INFO DEBUG).freeze
@@ -22,7 +24,7 @@ module RubyForGrafanaLoki
       @log_buffer = []
       @last_interaction_time = nil
       @interaction_interval = 1 # in seconds, adjust as needed
-      @max_buffer_size = 20 # set the maximum number of logs to buffer
+      @max_buffer_size = 10 # set the maximum number of logs to buffer
       @logger = InterceptingLogger.new(intercept_logs: @intercept_logs)
       @logger.client = self
       @connection = connection
@@ -43,7 +45,7 @@ module RubyForGrafanaLoki
           send_buffered_logs
           @last_interaction_time = Time.now
         else
-          @logger.info('Log buffered. Waiting for more logs or interaction interval.')
+          # @logger.info('Log buffered. Waiting for more logs or interaction interval.')
         end
       end
     end
@@ -88,10 +90,11 @@ module RubyForGrafanaLoki
     end
 
     def match_logs_type?(log_line)
-      type = log_line.match(/(ERROR|WARN|FATAL|INFO|DEBUG)/)&.to_s
+      return false if log_line.nil?
+
+      type_match = log_line.match(/(ERROR|WARN|FATAL|INFO|DEBUG)/)
+      type = type_match&.to_s
       @logs_type.include?(type)
     end
   end
 end
-
-
